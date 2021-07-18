@@ -7,13 +7,14 @@
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
-    "types": [
-      "vite/client",
-      "node"
-    ],
-    "typeRoots": [
-      "node_modules/@types",
-    ],
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "esModuleInterop": false,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "types": ["vite/client", "node"],
+    "typeRoots": ["node_modules/@types"],
     "lib": ["ESNext"]
-  },
+  }
 }

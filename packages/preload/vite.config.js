@@ -1,8 +1,8 @@
-import {chrome} from '../../electron-vendors.config.json';
-import {join} from 'path';
-import { builtinModules } from 'module';
-import {defineConfig} from 'vite';
-import {loadAndSetEnv} from '../../scripts/loadAndSetEnv.mjs';
+import { chrome } from "../../electron-vendors.config.json";
+import { join } from "path";
+import { builtinModules } from "module";
+import { defineConfig } from "vite";
+import { loadAndSetEnv } from "../../scripts/loadAndSetEnv.mjs";
 
 const PACKAGE_ROOT = __dirname;
 
@@ -19,15 +19,15 @@ export default defineConfig({
   root: PACKAGE_ROOT,
   resolve: {
     alias: {
-      '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      "/@/": join(PACKAGE_ROOT, "src") + "/",
     },
   },
   build: {
-    sourcemap: 'inline',
+    sourcemap: "inline",
     target: `chrome${chrome}`,
-    outDir: 'dist',
-    assetsDir: '.',
-    minify: process.env.MODE === 'development' ? false : 'terser',
+    outDir: "dist",
+    assetsDir: ".",
+    minify: process.env.MODE === "development" ? false : "terser",
     terserOptions: {
       ecma: 2020,
       compress: {
@@ -36,16 +36,13 @@ export default defineConfig({
       safari10: false,
     },
     lib: {
-      entry: 'src/index.ts',
-      formats: ['cjs'],
+      entry: "src/index.ts",
+      formats: ["cjs"],
     },
     rollupOptions: {
-      external: [
-        'electron',
-        ...builtinModules,
-      ],
+      external: ["electron", ...builtinModules],
       output: {
-        entryFileNames: '[name].cjs',
+        entryFileNames: "[name].cjs",
       },
     },
     emptyOutDir: true,

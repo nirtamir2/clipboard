@@ -1,5 +1,7 @@
-const now = new Date;
-const buildVersion = `${now.getFullYear() - 2000}.${now.getMonth() + 1}.${now.getDate()}`;
+const now = new Date();
+const buildVersion = `${now.getFullYear() - 2000}.${
+  now.getMonth() + 1
+}.${now.getDate()}`;
 
 /**
  * @type {import('electron-builder').Configuration}
@@ -7,12 +9,10 @@ const buildVersion = `${now.getFullYear() - 2000}.${now.getMonth() + 1}.${now.ge
  */
 const config = {
   directories: {
-    output: 'dist',
-    buildResources: 'buildResources',
+    output: "dist",
+    buildResources: "buildResources",
   },
-  files: [
-    'packages/**/dist/**',
-  ],
+  files: ["packages/**/dist/**"],
   extraMetadata: {
     version: buildVersion,
   },

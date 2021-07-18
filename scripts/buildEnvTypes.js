@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-const {resolveConfig} = require('vite');
-const {writeFileSync, mkdirSync, existsSync} = require('fs');
-const {resolve, dirname} = require('path');
+const { resolveConfig } = require("vite");
+const { writeFileSync, mkdirSync, existsSync } = require("fs");
+const { resolve, dirname } = require("path");
 
-const MODES = ['production', 'development', 'test'];
+const MODES = ["production", "development", "test"];
 
-const typeDefinitionFile = resolve(process.cwd(), './types/env.d.ts');
+const typeDefinitionFile = resolve(process.cwd(), "./types/env.d.ts");
 
 /**
  *
  * @return {string}
  */
 function getBaseInterface() {
-  return 'interface IBaseEnv {[key: string]: string}';
+  return "interface IBaseEnv {[key: string]: string}";
 }
 
 /**
@@ -23,10 +23,12 @@ function getBaseInterface() {
  */
 async function getInterfaceByMode(mode) {
   const interfaceName = `${mode}Env`;
-  const {env: envForMode} = await resolveConfig({mode}, 'build');
+  const { env: envForMode } = await resolveConfig({ mode }, "build");
   return {
     name: interfaceName,
-    declaration: `interface ${interfaceName} extends IBaseEnv ${JSON.stringify(envForMode)}`,
+    declaration: `interface ${interfaceName} extends IBaseEnv ${JSON.stringify(
+      envForMode,
+    )}`,
   };
 }
 
@@ -35,19 +37,20 @@ async function getInterfaceByMode(mode) {
  * @param {string} filePath
  */
 async function buildMode(modes, filePath) {
-
   const IBaseEnvDeclaration = getBaseInterface();
 
   const interfaces = await Promise.all(modes.map(getInterfaceByMode));
 
-  const allDeclarations = interfaces.map(i => i.declaration);
-  const allNames = interfaces.map(i => i.name);
+  const allDeclarations = interfaces.map((i) => i.declaration);
+  const allNames = interfaces.map((i) => i.name);
 
-  const ImportMetaEnvDeclaration = `type ImportMetaEnv = Readonly<${allNames.join(' | ')}>`;
+  const ImportMetaEnvDeclaration = `type ImportMetaEnv = Readonly<${allNames.join(
+    " | ",
+  )}>`;
 
   const content = `
     ${IBaseEnvDeclaration}
-    ${allDeclarations.join('\n')}
+    ${allDeclarations.join("\n")}
     ${ImportMetaEnvDeclaration}
   `;
 
@@ -56,12 +59,10 @@ async function buildMode(modes, filePath) {
     mkdirSync(dir);
   }
 
-
-  writeFileSync(filePath, content, {encoding: 'utf-8', flag: 'w'});
+  writeFileSync(filePath, content, { encoding: "utf-8", flag: "w" });
 }
 
-buildMode(MODES, typeDefinitionFile)
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+buildMode(MODES, typeDefinitionFile).catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
