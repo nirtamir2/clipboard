@@ -25,10 +25,6 @@
     "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "useUnknownInCatchVariables": true,
-    // unused - can be in eslint too
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
+    "useUnknownInCatchVariables": true
   }
 }
