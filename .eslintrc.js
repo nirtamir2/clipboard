@@ -18,6 +18,7 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   ignorePatterns: ["types/env.d.ts", "node_modules/**", "**/dist/**"],
   rules: {
+    "func-style": ["error", "declaration", { allowArrowFunctions: false }],
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/consistent-type-imports": "error",

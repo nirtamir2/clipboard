@@ -1,0 +1,42 @@
+.container {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--white-opacity);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--box-shadow);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: var(--gutter);
+  box-shadow: 0 0 1px var(--border-color);
+}
+
+.item:hover {
+  background: var(--hover-color);
+}
+
+.input {
+  border: none;
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+
+  border-bottom: thin solid var(--border-color);
+
+  padding: var(--gutter);
+}
+
+.emptyClipboard {
+  padding: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

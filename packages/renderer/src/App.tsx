@@ -1,52 +1,59 @@
-import React, { useState } from "react";
-import "./App.css";
+import React from "react";
 import { useElectron } from "/@/use/electron";
+import "modern-css-reset";
+import styles from "./App.module.css";
+import { motion } from "framer-motion";
+import emptyClipboardSrc from "./empty-clipboard.svg";
+import { useClipboardHistory } from "/@/hooks";
+import type { IClipboardItem } from "/@/types/IClipboardItem";
 
 const { clipboard } = useElectron();
 
 function App(): JSX.Element {
-  const [count, setCount] = useState("");
+  const clipboardHistory = useClipboardHistory();
 
-  React.useEffect(() => {
-    clipboard.startListening();
-    clipboard.addListener((text) => {
-      setCount(text);
-    });
+  function renderEmptyClipboardItems() {
+    return (
+      <div className={styles.emptyClipboard}>
+        <img
+          src={emptyClipboardSrc}
+          height={63.217383}
+          width={64.763626}
+          alt="Empty clipboard"
+        />
+      </div>
+    );
+  }
 
-    return () => {
-      clipboard.stopListening();
-    };
-  }, []);
+  function handleCopyToClipboard(item: IClipboardItem) {
+    clipboard.writeText(item.value);
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Hello Vite + React!</p>
-        <p>count is: {count}</p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <motion.div className={styles.container}>
+      <input
+        type="text"
+        placeholder="Search for text..."
+        className={styles.input}
+      />
+      {clipboardHistory.length === 0 ? (
+        renderEmptyClipboardItems()
+      ) : (
+        <ul className={styles.list}>
+          {clipboardHistory.map((clipboardItem) => {
+            return (
+              <li
+                key={clipboardItem.id}
+                className={styles.item}
+                onClick={() => handleCopyToClipboard(clipboardItem)}
+              >
+                {clipboardItem.value}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </motion.div>
   );
 }
 

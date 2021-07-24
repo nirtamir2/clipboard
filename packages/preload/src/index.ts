@@ -2,9 +2,32 @@ import { contextBridge, clipboard } from "electron";
 import type { ElectronApi } from "../electron-api";
 const apiKey = "electron";
 
-const noop = () => {
+function noop() {
   /*do nothing*/
-};
+}
+
+/**
+ * Recursively Object.freeze() on objects and functions
+ * @see https://github.com/substack/deep-freeze
+ * @param obj Object on which to lock the attributes
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function deepFreeze(obj: any) {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
+  if (typeof obj === "object" && obj !== null) {
+    Object.keys(obj).forEach((prop) => {
+      const val = obj[prop];
+      if (
+        (typeof val === "object" || typeof val === "function") &&
+        !Object.isFrozen(val)
+      ) {
+        deepFreeze(val);
+      }
+    });
+  }
+
+  return Object.freeze(obj);
+}
 
 /**
  * @see https://github.com/electron/electron/issues/21437#issuecomment-573522360
@@ -16,6 +39,7 @@ const api: ElectronApi = {
     stopListening: noop,
     addListener: noop,
     readText: () => clipboard.readText(),
+    writeText: (text: string) => clipboard.writeText(text),
     readImage: () => clipboard.readImage(),
   },
 };
@@ -29,29 +53,6 @@ if (import.meta.env.MODE !== "test") {
    */
   contextBridge.exposeInMainWorld(apiKey, api);
 } else {
-  /**
-   * Recursively Object.freeze() on objects and functions
-   * @see https://github.com/substack/deep-freeze
-   * @param obj Object on which to lock the attributes
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const deepFreeze = (obj: any) => {
-    // eslint-disable-line @typescript-eslint/no-explicit-any
-    if (typeof obj === "object" && obj !== null) {
-      Object.keys(obj).forEach((prop) => {
-        const val = obj[prop];
-        if (
-          (typeof val === "object" || typeof val === "function") &&
-          !Object.isFrozen(val)
-        ) {
-          deepFreeze(val);
-        }
-      });
-    }
-
-    return Object.freeze(obj);
-  };
-
   deepFreeze(api);
 
   // @ts-ignore: set `windows.electron` access

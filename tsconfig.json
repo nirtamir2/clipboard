@@ -25,6 +25,7 @@
     "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   }
 }
