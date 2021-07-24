@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import "./App.css";
+import { useElectron } from "/@/use/electron";
 
-function App() {
-  const [count, setCount] = useState(0);
+const { clipboard } = useElectron();
+
+function App(): JSX.Element {
+  const [count, setCount] = useState("");
+
+  React.useEffect(() => {
+    clipboard.startListening();
+    clipboard.addListener((text) => {
+      setCount(text);
+    });
+
+    return () => {
+      clipboard.stopListening();
+    };
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
+        <p>count is: {count}</p>
         <p>
           Edit <code>App.tsx</code> and save to test HMR updates.
         </p>

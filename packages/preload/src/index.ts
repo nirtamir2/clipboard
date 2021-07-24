@@ -1,11 +1,23 @@
-import { contextBridge } from "electron";
-
+import { contextBridge, clipboard } from "electron";
+import type { ElectronApi } from "../electron-api";
 const apiKey = "electron";
+
+const noop = () => {
+  /*do nothing*/
+};
+
 /**
  * @see https://github.com/electron/electron/issues/21437#issuecomment-573522360
  */
 const api: ElectronApi = {
   versions: process.versions,
+  clipboard: {
+    startListening: noop,
+    stopListening: noop,
+    addListener: noop,
+    readText: () => clipboard.readText(),
+    readImage: () => clipboard.readImage(),
+  },
 };
 
 if (import.meta.env.MODE !== "test") {
@@ -22,6 +34,7 @@ if (import.meta.env.MODE !== "test") {
    * @see https://github.com/substack/deep-freeze
    * @param obj Object on which to lock the attributes
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const deepFreeze = (obj: any) => {
     // eslint-disable-line @typescript-eslint/no-explicit-any
     if (typeof obj === "object" && obj !== null) {
@@ -41,8 +54,9 @@ if (import.meta.env.MODE !== "test") {
 
   deepFreeze(api);
 
+  // @ts-ignore: set `windows.electron` access
   window[apiKey] = api;
 
-  // Need for Spectron tests
+  // @ts-ignore: Need for Spectron tests
   window.electronRequire = require;
 }
