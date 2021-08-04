@@ -25,20 +25,20 @@ const sharedConfig = {
  * @param name
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
-const getWatcher = ({ name, configFile, writeBundle }) => {
+function getWatcher({ name, configFile, writeBundle }) {
   return build({
     ...sharedConfig,
     configFile,
     plugins: [{ name, writeBundle }],
   });
-};
+}
 
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
-const setupMainPackageWatcher = (viteDevServer) => {
+function setupMainPackageWatcher(viteDevServer) {
   // Write a value to an environment variable to pass it to the main process.
   {
     const protocol = `http${viteDevServer.config.server.https ? "s" : ""}:`;
@@ -78,14 +78,14 @@ const setupMainPackageWatcher = (viteDevServer) => {
       );
     },
   });
-};
+}
 
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
-const setupPreloadPackageWatcher = (viteDevServer) => {
+function setupPreloadPackageWatcher(viteDevServer) {
   return getWatcher({
     name: "reload-page-on-preload-package-change",
     configFile: "packages/preload/vite.config.js",
@@ -95,7 +95,7 @@ const setupPreloadPackageWatcher = (viteDevServer) => {
       });
     },
   });
-};
+}
 
 (async () => {
   try {

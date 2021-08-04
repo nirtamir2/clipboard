@@ -14,7 +14,10 @@ const packagesConfigs = [
 /**
  * Run `vite build` for config file
  */
-const buildByConfig = (configFile) => build({ configFile, mode });
+function buildByConfig(configFile) {
+  return build({ configFile, mode });
+}
+
 (async () => {
   try {
     const totalTimeLabel = "Total bundling time";
