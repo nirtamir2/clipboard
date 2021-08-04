@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import { join } from "path";
 import { URL } from "url";
+import debug from "electron-debug";
 
 const isSingleInstance = app.requestSingleInstanceLock();
 
@@ -19,6 +20,8 @@ const env = import.meta.env;
 
 // Install "React devtools"
 if (env.MODE === "development") {
+  debug({ showDevTools: false });
+
   app
     .whenReady()
     .then(() => import("electron-devtools-installer"))
@@ -34,7 +37,7 @@ if (env.MODE === "development") {
 
 let mainWindow: BrowserWindow | null = null;
 
-const createWindow = async () => {
+async function createWindow() {
   mainWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     transparent: true,
@@ -60,10 +63,6 @@ const createWindow = async () => {
    */
   mainWindow.on("ready-to-show", () => {
     mainWindow?.show();
-
-    if (env.MODE === "development") {
-      mainWindow?.webContents.openDevTools();
-    }
   });
 
   /**
@@ -80,7 +79,7 @@ const createWindow = async () => {
         ).toString();
 
   await mainWindow.loadURL(pageUrl);
-};
+}
 
 app.on("second-instance", () => {
   // Someone tried to run a second instance, we should focus our window.

@@ -44,10 +44,10 @@ export default defineConfig({
       external: [
         "electron",
         /**
-         * semver can not be bundled
-         * @see https://github.com/npm/node-semver/issues/381
+         * electron-devtools-installer can not be bundled
+         * @see https://github.com/cawa-93/vite-electron-builder/issues/346
          */
-        "semver",
+        'electron-devtools-installer',
         ...builtinModules,
       ],
       output: {
