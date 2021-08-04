@@ -19,8 +19,7 @@
     "typecheck-renderer": "tsc --noEmit -p packages/renderer/tsconfig.json"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "pre-push": "npm run typecheck"
+    "pre-commit": "npx lint-staged && npm run typecheck"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --cache --fix"
