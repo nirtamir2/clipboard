@@ -26,6 +26,5 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
 //    "useUnknownInCatchVariables": true, TS 4.4
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   }
 }

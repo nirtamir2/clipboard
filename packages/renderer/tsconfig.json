@@ -14,5 +14,7 @@
     "types/**/*.d.ts",
     "../../types/**/*.d.ts",
     "../preload/types/electron-api.d.ts"
-  ]
+  ],
+
+  "plugins": [{ "name": "typescript-plugin-css-modules" }]
 }
