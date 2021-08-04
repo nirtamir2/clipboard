@@ -17,14 +17,14 @@
     "lib": ["ESNext"],
     "strict": true,
     "alwaysStrict": true,
-//    "exactOptionalPropertyTypes": true, TS 4.4
+    //    "exactOptionalPropertyTypes": true, TS 4.4
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-//    "useUnknownInCatchVariables": true, TS 4.4
+    //    "noPropertyAccessFromIndexSignature": true, cause problems with css modules
+    "noUncheckedIndexedAccess": true
+    //    "useUnknownInCatchVariables": true, TS 4.4
   }
 }
