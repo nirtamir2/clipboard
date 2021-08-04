@@ -6,6 +6,6 @@
       "/@/*": ["./src/*"]
     }
   },
-  "files": ["electron-api.d.ts", "src/index.ts"],
+  "files": ["types/electron-api.ts", "src/index.ts"],
   "include": ["../../types/**/*.d.ts"]
 }

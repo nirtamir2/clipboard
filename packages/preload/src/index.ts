@@ -1,5 +1,5 @@
 import { contextBridge, clipboard } from "electron";
-import type { ElectronApi } from "../electron-api";
+import type { ElectronApi } from "../types/electron-api";
 const apiKey = "electron";
 
 function noop() {
